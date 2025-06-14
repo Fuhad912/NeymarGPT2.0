@@ -11,14 +11,14 @@
             --primary: #0A1F44;
             --secondary: #C41E3A;
             --accent: #F8C146;
-            --light: #F5F5F5;
-            --dark: #121212;
-            --text: #333;
-            --text-light: #777;
-            --white: #fff;
-            --gray: #eaeaea;
+            --light: #121212;
+            --dark: #1e1e1e;
+            --text: #e0e0e0;
+            --text-light: #bbbbbb;
+            --white: #ffffff;
+            --gray: #333333;
             --border-radius: 12px;
-            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             --transition: all 0.3s ease;
         }
 
@@ -37,11 +37,6 @@
             transition: var(--transition);
         }
 
-        body.dark-mode {
-            background: #121212;
-            color: #e0e0e0;
-        }
-
         .container {
             width: 100%;
             max-width: 1200px;
@@ -54,15 +49,7 @@
             font-weight: 700;
             line-height: 1.2;
             margin-bottom: 1rem;
-            color: var(--primary);
-        }
-
-        body.dark-mode h1,
-        body.dark-mode h2,
-        body.dark-mode h3,
-        body.dark-mode h4,
-        body.dark-mode h5 {
-            color: #fff;
+            color: var(--white);
         }
 
         h1 {
@@ -97,10 +84,6 @@
             color: var(--text-light);
         }
 
-        body.dark-mode p {
-            color: #bbb;
-        }
-
         .text-center {
             text-align: center;
         }
@@ -129,23 +112,13 @@
 
         .btn-outline {
             background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
+            border: 2px solid var(--white);
+            color: var(--white);
             box-shadow: none;
         }
 
-        body.dark-mode .btn-outline {
-            border-color: #fff;
-            color: #fff;
-        }
-
         .btn-outline:hover {
-            background: var(--primary);
-            color: var(--white);
-        }
-
-        body.dark-mode .btn-outline:hover {
-            background: #fff;
+            background: var(--white);
             color: var(--primary);
         }
 
@@ -159,7 +132,7 @@
         }
 
         .card {
-            background: var(--white);
+            background: var(--dark);
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
             overflow: hidden;
@@ -167,10 +140,6 @@
             height: 100%;
             opacity: 0;
             transform: translateY(30px);
-        }
-
-        body.dark-mode .card {
-            background: #1e1e1e;
         }
 
         .card.animate {
@@ -181,7 +150,7 @@
 
         .card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
         }
 
         .card-content {
@@ -208,6 +177,7 @@
             padding: 160px 0 100px;
             position: relative;
             overflow: hidden;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
         }
 
         .hero:before {
@@ -244,8 +214,8 @@
         }
 
         .hero-highlight {
-            color: var(--secondary);
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(248, 193, 70, 0.5);
             animation: glow 2s infinite alternate;
         }
 
@@ -261,8 +231,8 @@
             top: 0;
             left: 0;
             width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            background: rgba(30, 30, 30, 0.95);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
             z-index: 1000;
             padding: 20px 0;
             transition: var(--transition);
@@ -271,11 +241,6 @@
 
         nav.hidden {
             transform: translateY(-100%);
-        }
-
-        body.dark-mode nav {
-            background: rgba(30, 30, 30, 0.95);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
         }
 
         .nav-container {
@@ -287,14 +252,10 @@
         .logo {
             font-size: 1.8rem;
             font-weight: 800;
-            color: var(--primary);
+            color: var(--white);
             text-decoration: none;
             display: flex;
             align-items: center;
-        }
-
-        body.dark-mode .logo {
-            color: #fff;
         }
 
         .logo i {
@@ -318,10 +279,6 @@
             position: relative;
         }
 
-        body.dark-mode .nav-links a {
-            color: #e0e0e0;
-        }
-
         .nav-links a:after {
             content: '';
             position: absolute;
@@ -335,7 +292,7 @@
 
         .nav-links a:hover, 
         .nav-links a.active {
-            color: var(--secondary);
+            color: var(--white);
         }
 
         .nav-links a:hover:after, 
@@ -345,7 +302,7 @@
 
         /* Dark Mode Toggle */
         .theme-toggle {
-            background: var(--gray);
+            background: #333;
             border: none;
             width: 50px;
             height: 25px;
@@ -358,40 +315,27 @@
             transition: var(--transition);
         }
 
-        body.dark-mode .theme-toggle {
-            background: #333;
-        }
-
         .toggle-circle {
             position: absolute;
             width: 18px;
             height: 18px;
             border-radius: 50%;
-            background: var(--primary);
+            background: var(--accent);
             transition: var(--transition);
             left: 4px;
-        }
-
-        body.dark-mode .toggle-circle {
             transform: translateX(24px);
-            background: var(--accent);
         }
 
         .theme-toggle i {
             font-size: 0.8rem;
-            color: var(--primary);
         }
 
-        body.dark-mode .theme-toggle i.fa-sun {
+        .theme-toggle i.fa-sun {
             color: var(--accent);
         }
 
         .theme-toggle i.fa-moon {
             margin-left: auto;
-            color: #666;
-        }
-
-        body.dark-mode .theme-toggle i.fa-moon {
             color: #fff;
         }
 
@@ -403,7 +347,7 @@
         .feature-icon {
             width: 80px;
             height: 80px;
-            background: rgba(10, 31, 68, 0.05);
+            background: rgba(10, 31, 68, 0.1);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -421,7 +365,7 @@
 
         /* Chat Interface */
         .chat-container {
-            background: var(--white);
+            background: var(--dark);
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
             overflow: hidden;
@@ -436,10 +380,6 @@
         .chat-container.animate {
             opacity: 1;
             transform: translateY(0);
-        }
-
-        body.dark-mode .chat-container {
-            background: #1e1e1e;
         }
 
         .chat-header {
@@ -482,27 +422,17 @@
         }
 
         .bot-message {
-            background: #f0f4f8;
-            color: var(--text);
-            align-self: flex-start;
-            border-bottom-left-radius: 5px;
-        }
-
-        body.dark-mode .bot-message {
             background: #2a2a2a;
             color: #e0e0e0;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
         }
 
         .chat-input {
             display: flex;
             padding: 20px;
             border-top: 1px solid var(--gray);
-            background: var(--white);
-        }
-
-        body.dark-mode .chat-input {
-            background: #1e1e1e;
-            border-color: #333;
+            background: var(--dark);
         }
 
         .chat-input input {
@@ -513,13 +443,7 @@
             font-size: 1rem;
             outline: none;
             transition: var(--transition);
-            background: var(--white);
-            color: var(--text);
-        }
-
-        body.dark-mode .chat-input input {
             background: #2a2a2a;
-            border-color: #333;
             color: #e0e0e0;
         }
 
@@ -556,7 +480,7 @@
         }
 
         .question-card {
-            background: var(--white);
+            background: var(--dark);
             border-radius: var(--border-radius);
             padding: 25px;
             box-shadow: var(--box-shadow);
@@ -565,10 +489,6 @@
             border: 2px solid transparent;
             opacity: 0;
             transform: translateY(30px);
-        }
-
-        body.dark-mode .question-card {
-            background: #1e1e1e;
         }
 
         .question-card.animate {
@@ -645,7 +565,7 @@
         }
 
         .gallery-item:hover {
-            transform: translateY(-10px);
+            transform: translateY(-10px) scale(1.02);
         }
 
         .gallery-item img {
@@ -686,20 +606,14 @@
         }
 
         .gallery-btn {
-            background: var(--white);
+            background: var(--dark);
             border: 2px solid var(--primary);
-            color: var(--primary);
+            color: var(--white);
             padding: 10px 20px;
             border-radius: 50px;
             cursor: pointer;
             transition: var(--transition);
             font-weight: 600;
-        }
-
-        body.dark-mode .gallery-btn {
-            background: #2a2a2a;
-            color: #fff;
-            border-color: #555;
         }
 
         .gallery-btn:hover, 
@@ -718,6 +632,7 @@
             padding: 70px 40px;
             position: relative;
             overflow: hidden;
+            clip-path: polygon(0 10%, 100% 0, 100% 90%, 0 100%);
         }
 
         .cta:before {
@@ -864,8 +779,8 @@
         }
 
         @keyframes glow {
-            0% { text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
-            100% { text-shadow: 0 0 20px rgba(255, 255, 255, 0.8); }
+            0% { text-shadow: 0 0 10px rgba(248, 193, 70, 0.5); }
+            100% { text-shadow: 0 0 20px rgba(248, 193, 70, 0.8); }
         }
 
         @keyframes pulse {
@@ -911,16 +826,12 @@
                 top: 80px;
                 right: -100%;
                 flex-direction: column;
-                background: var(--white);
+                background: var(--dark);
                 width: 100%;
                 padding: 20px;
-                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+                box-shadow: 0 10px 20px rgba(0,0,0,0.3);
                 transition: var(--transition);
                 z-index: 1000;
-            }
-
-            body.dark-mode .nav-links {
-                background: #1e1e1e;
             }
 
             .nav-links.active {
@@ -932,12 +843,8 @@
                 background: none;
                 border: none;
                 font-size: 1.5rem;
-                color: var(--primary);
+                color: var(--white);
                 cursor: pointer;
-            }
-
-            body.dark-mode .mobile-menu-btn {
-                color: #fff;
             }
 
             .gallery {
@@ -988,7 +895,7 @@
         }
     </style>
 </head>
-<body>
+<body class="dark-mode">
     <!-- Navigation -->
     <nav>
         <div class="container nav-container">
@@ -1148,7 +1055,7 @@
 
             <!-- Santos Gallery -->
             <div class="club-gallery" data-category="santos">
-                <h3 class="club-header">Santos FC (2009-2013)</h3>
+                <h3 class="club-header">Santos FC (2009-2013 & 2024-Present)</h3>
                 <div class="gallery">
                     <div class="gallery-item">
                         <img src="https://i.postimg.cc/FzTF18Gr/1e41df49cd33c13701fbb00b7cf9af84.webp" alt="Neymar at Santos">
@@ -1167,8 +1074,8 @@
                     <div class="gallery-item">
                         <img src="https://i.postimg.cc/J7pR3wcm/gettyimages-2216374299-594x594.jpg" alt="Neymar at Santos">
                         <div class="gallery-overlay">
-                            <h3>Santos Legend</h3>
-                            <p>Before moving to Europe</p>
+                            <h3>Return to Santos</h3>
+                            <p>2024 comeback</p>
                         </div>
                     </div>
                     <div class="gallery-item">
@@ -1267,13 +1174,6 @@
                         <div class="gallery-overlay">
                             <h3>Saudi Pro League</h3>
                             <p>Brief stint</p>
-                        </div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="https://i.postimg.cc/PJvXrnyk/gettyimages-1232295959-594x594.jpg" alt="Neymar at Al-Hilal">
-                        <div class="gallery-overlay">
-                            <h3>Injury Struggles</h3>
-                            <p>Limited appearances</p>
                         </div>
                     </div>
                 </div>
@@ -1420,18 +1320,18 @@
     </footer>
 
     <script>
-        // Enhanced Neymar Data
+        // Enhanced Neymar Data with more information
         const neymarData = {
             fullName: "Neymar da Silva Santos Júnior",
             nicknames: ["Ney", "Neymar Jr.", "Menino Ney"],
             birth: {
                 date: "5 February 1992",
-                age: 33,
+                age: 32,
                 place: "Mogi das Cruzes, São Paulo, Brazil"
             },
             nationality: "Brazilian",
-            height: "1.75 m",
-            weight: "68 kg",
+            height: "1.75 m (5 ft 9 in)",
+            weight: "68 kg (150 lbs)",
             position: ["Left Winger", "Forward", "Attacking Midfielder"],
             preferredFoot: "Right",
             jerseyNumber: 10,
@@ -1446,33 +1346,39 @@
                 {
                     club: "Santos FC",
                     years: "2009–2013",
-                    apps: 134,
-                    goals: 70
+                    apps: 225,
+                    goals: 136,
+                    notes: "Won Copa Libertadores and 3 Campeonato Paulista titles"
                 },
                 {
                     club: "FC Barcelona",
                     years: "2013–2017",
                     apps: 186,
-                    goals: 105
+                    goals: 105,
+                    assists: 76,
+                    notes: "Won UEFA Champions League, La Liga (2), Copa del Rey (3)"
                 },
                 {
                     club: "Paris Saint-Germain",
                     years: "2017–2023",
                     apps: 173,
-                    goals: 118
+                    goals: 118,
+                    assists: 77,
+                    notes: "Won Ligue 1 (5 times), Coupe de France (3), Coupe de la Ligue (2)"
                 },
                 {
                     club: "Al-Hilal",
                     years: "2023–2024",
                     apps: 5,
                     goals: 1,
-                    notes: "Struggled with injury"
+                    notes: "Suffered ACL injury in October 2023"
                 },
                 {
                     club: "Santos FC",
                     years: "2024–Present",
-                    apps: 2,
-                    goals: 1
+                    apps: 12,
+                    goals: 4,
+                    notes: "Returned to boyhood club after recovery"
                 }
             ],
             nationalTeam: {
@@ -1480,73 +1386,107 @@
                 caps: 128,
                 goals: 79,
                 debut: "10 August 2010 vs USA",
-                lastMatch: "2023 (before injury)",
+                lastMatch: "17 October 2023 vs Uruguay",
                 records: [
                     "Brazil's all-time top scorer (tied with Pelé)",
-                    "Only player to score in three different Olympic Games"
+                    "Only player to score in three different Olympic Games",
+                    "Second most assists in Brazilian national team history"
+                ],
+                achievements: [
+                    "Olympic Gold Medal - Rio 2016",
+                    "FIFA Confederations Cup - 2013",
+                    "Copa América runner-up - 2021"
                 ]
             },
             trophies: {
                 international: [
-                    "Olympic Gold Medal – 2016",
-                    "FIFA Confederations Cup – 2013"
+                    "Olympic Gold Medal - 2016",
+                    "FIFA Confederations Cup - 2013"
                 ],
                 club: [
-                    "Copa Libertadores – 2011",
-                    "La Liga – 2014–15, 2015–16",
-                    "Copa del Rey – 2015, 2016, 2017",
-                    "UEFA Champions League – 2014–15",
-                    "Ligue 1 – 2017 to 2022 (5 times)",
-                    "Coupe de France, Coupe de la Ligue, Trophée des Champions"
+                    "UEFA Champions League - 2014-15 (Barcelona)",
+                    "Copa Libertadores - 2011 (Santos)",
+                    "La Liga - 2014-15, 2015-16 (Barcelona)",
+                    "Ligue 1 - 2017-18, 2018-19, 2019-20, 2021-22, 2022-23 (PSG)",
+                    "Copa del Rey - 2015, 2016, 2017 (Barcelona)",
+                    "Coupe de France - 2018, 2020, 2021 (PSG)"
                 ],
                 individual: [
-                    "South American Footballer of the Year – 2011, 2012",
-                    "FIFA Puskás Award – 2011",
-                    "La Liga Best World Player – 2015",
-                    "Top scorer: Copa do Brasil, Champions League, Ligue 1 (shared)"
+                    "South American Footballer of the Year - 2011, 2012",
+                    "FIFA Puskás Award - 2011",
+                    "La Liga Best World Player - 2015",
+                    "Samba Gold - 2014, 2015, 2017",
+                    "UEFA Champions League Squad of the Season - 2014-15, 2019-20",
+                    "FIFA FIFPro World XI - 2015, 2017"
                 ]
             },
             playStyle: {
-                description: "Creative, flashy, fast-paced forward known for flair, dribbling, and quick footwork. Strong in one-on-one situations and link-up play.",
-                keyTraits: ["Dribbling", "Showboating", "Vision", "Agility", "Free kicks", "Through balls"]
+                description: "Neymar is renowned for his exceptional dribbling skills, creativity, and flair. He combines Brazilian jogo bonito with European tactical discipline. His playing style is characterized by quick footwork, acceleration, and the ability to beat defenders in one-on-one situations. Neymar is equally effective as a playmaker and finisher, with excellent vision and passing ability.",
+                keyTraits: ["Dribbling", "Flair", "Vision", "Agility", "Free kicks", "Through balls", "Playmaking"],
+                strengths: [
+                    "Exceptional close control in tight spaces",
+                    "Ability to draw fouls in dangerous areas",
+                    "Creative passing and vision",
+                    "Clinical finishing with both feet",
+                    "Set-piece specialist"
+                ]
             },
             injuries: [
                 {
                     year: 2014,
-                    description: "Back injury during World Cup quarter-final vs Colombia"
+                    description: "Fractured vertebra during World Cup quarter-final vs Colombia, missed semi-final"
                 },
                 {
                     year: 2018,
-                    description: "Fractured metatarsal before World Cup"
+                    description: "Fractured fifth metatarsal in right foot, missed 3 months including Champions League match against Real Madrid"
+                },
+                {
+                    year: 2019,
+                    description: "Right ankle sprain, missed 10 weeks"
+                },
+                {
+                    year: 2021,
+                    description: "Left ankle ligament damage, missed 3 months"
                 },
                 {
                     year: 2023,
-                    description: "ACL and meniscus tear while playing for Brazil"
+                    description: "ACL and meniscus tear in left knee while playing for Brazil vs Uruguay, required surgery"
                 }
             ],
             offPitch: {
-                hobbies: ["Poker", "Gaming", "Music", "Dancing"],
+                hobbies: ["Poker (professional level)", "Gaming (Counter-Strike, Call of Duty)", "Music production", "Dancing"],
                 charities: [
-                    "Instituto Neymar Jr. – non-profit for youth education and sports in Brazil"
+                    "Instituto Neymar Jr. - founded in 2014 to support underprivileged children in Brazil",
+                    "Donated €1 million to fight COVID-19 in Brazil",
+                    "Supports various children's hospitals and charities"
                 ],
                 funFacts: [
                     "Has a son named Davi Lucca, born in 2011",
-                    "Huge fan of Counter-Strike and Call of Duty",
-                    "Close friends with Messi and Mbappé",
-                    "Starred in Netflix documentary: 'The Perfect Chaos'"
+                    "Owns a gaming organization called 'NJR Esports'",
+                    "Close friends with many football stars including Messi, Mbappé, and Coutinho",
+                    "Starred in Netflix documentary 'Neymar: The Perfect Chaos'",
+                    "Has over 200 million followers on Instagram"
                 ]
             },
             endorsements: [
-                "Puma (main sponsor)",
+                "Puma (lifetime contract worth over $30 million annually)",
                 "Red Bull",
                 "Qatar Airways",
                 "Beats by Dre",
                 "Gillette",
-                "Gaules Gaming (collaboration)"
+                "Gaules Gaming (collaboration)",
+                "Electronic Arts (EA Sports)",
+                "Mastercard"
+            ],
+            records: [
+                "Most expensive footballer in history (€222m transfer to PSG)",
+                "Only player to score in Champions League, Copa Libertadores, and Olympic final",
+                "Fastest Brazilian to reach 100 goals in European football",
+                "Youngest player to score 100 professional goals (21 years)"
             ]
         };
 
-        // Chatbot functionality
+        // Chatbot functionality with enhanced responses
         document.addEventListener('DOMContentLoaded', function() {
             const chatInput = document.getElementById('chatInput');
             const sendBtn = document.getElementById('sendBtn');
@@ -1570,111 +1510,133 @@
                 chatContainer.classList.add('animate');
             }, 300);
 
-            // Function to add a message to the chat
+            // Function to add a message to the chat with typing effect
             function addMessage(sender, text) {
                 const messageDiv = document.createElement('div');
                 messageDiv.classList.add('message');
                 messageDiv.classList.add(sender === 'user' ? 'user-message' : 'bot-message');
-                messageDiv.textContent = text;
                 chatMessages.appendChild(messageDiv);
 
                 // Add animation class after a short delay
                 setTimeout(() => {
                     messageDiv.classList.add('animate');
+
+                    // Add typing effect for bot messages
+                    if (sender === 'bot') {
+                        messageDiv.textContent = '';
+                        let i = 0;
+                        const typing = setInterval(() => {
+                            if (i < text.length) {
+                                messageDiv.textContent += text.charAt(i);
+                                i++;
+                                chatMessages.scrollTop = chatMessages.scrollHeight;
+                            } else {
+                                clearInterval(typing);
+                            }
+                        }, 20);
+                    } else {
+                        messageDiv.textContent = text;
+                    }
                 }, 10);
 
                 // Scroll to bottom
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }
 
-            // Function to process user questions
+            // Function to process user questions with natural language understanding
             function processQuestion(question) {
                 question = question.toLowerCase().trim();
 
                 // Personal Information
-                if (question.includes('born') || question.includes('birth') || question.includes('birthday') || question.includes('age')) {
-                    return `Neymar was born on ${neymarData.birth.date} (age ${neymarData.birth.age}) in ${neymarData.birth.place}.`;
+                if (question.includes('born') || question.includes('birth') || question.includes('birthday') || question.includes('age') || question.includes('old')) {
+                    return `Neymar was born on ${neymarData.birth.date}, making him ${neymarData.birth.age} years old. He was born in ${neymarData.birth.place}, Brazil.`;
                 }
 
-                if (question.includes('full name') || question.includes('real name') || question.includes('what is his name')) {
-                    return `Neymar's full name is ${neymarData.fullName}. He's also known as ${neymarData.nicknames.join(', ')}.`;
+                if (question.includes('full name') || question.includes('real name') || question.includes('what is his name') || question.includes('actual name')) {
+                    return `Neymar's full name is ${neymarData.fullName}. He's often called ${neymarData.nicknames.join(' or ')}.`;
                 }
 
-                if (question.includes('height') || question.includes('tall') || question.includes('how tall')) {
+                if (question.includes('height') || question.includes('tall') || question.includes('how tall') || question.includes('measure')) {
                     return `Neymar is ${neymarData.height} tall and weighs ${neymarData.weight}.`;
                 }
 
-                if (question.includes('position') || question.includes('play') || question.includes('role')) {
-                    return `Neymar primarily plays as ${neymarData.position[0]}, but can also play as ${neymarData.position.slice(1).join(' or ')}.`;
+                if (question.includes('position') || question.includes('play') || question.includes('role') || question.includes('where does he play')) {
+                    return `Neymar primarily plays as ${neymarData.position[0]}, but can also play as ${neymarData.position.slice(1).join(' or ')}. He's known for his versatility in attack.`;
                 }
 
-                if (question.includes('jersey') || question.includes('number') || question.includes('shirt number')) {
-                    return `Neymar wears jersey number ${neymarData.jerseyNumber} for his club and national team.`;
+                if (question.includes('jersey') || question.includes('number') || question.includes('shirt number') || question.includes('kit number')) {
+                    return `Neymar wears the number ${neymarData.jerseyNumber} for both his club and the Brazilian national team. It's his iconic number throughout his career.`;
                 }
 
-                if (question.includes('current club') || question.includes('current team') || question.includes('where does he play now')) {
+                if (question.includes('current club') || question.includes('current team') || question.includes('where does he play now') || question.includes('which team')) {
                     return `Neymar currently plays for ${neymarData.currentClub}. ${neymarData.currentStatus}`;
                 }
 
                 // Career Information
-                if (question.includes('club') || question.includes('team') || question.includes('played for') || question.includes('career')) {
-                    const clubs = neymarData.clubCareer.map(c => `${c.club} (${c.years}) - ${c.goals} goals in ${c.apps} apps${c.notes ? ` (${c.notes})` : ''}`).join('\n');
-                    return `Neymar has played for these clubs:\n${clubs}\nHe currently plays for ${neymarData.currentClub}.`;
+                if (question.includes('club') || question.includes('team') || question.includes('played for') || question.includes('career') || question.includes('transfer')) {
+                    const clubs = neymarData.clubCareer.map(c => `• ${c.club} (${c.years}) - ${c.goals} goals in ${c.apps} apps${c.notes ? ` - ${c.notes}` : ''}`).join('\n');
+                    return `Neymar has played for these clubs throughout his career:\n${clubs}\nHe currently plays for ${neymarData.currentClub}.`;
                 }
 
-                if (question.includes('brazil') || question.includes('national team') || question.includes('country')) {
-                    return `For Brazil, Neymar has scored ${neymarData.nationalTeam.goals} goals in ${neymarData.nationalTeam.caps} appearances.\nDebut: ${neymarData.nationalTeam.debut}\nLast match: ${neymarData.nationalTeam.lastMatch}\nRecords: ${neymarData.nationalTeam.records.join(', ')}`;
+                if (question.includes('brazil') || question.includes('national team') || question.includes('country') || question.includes('selecao') || question.includes('international')) {
+                    return `For Brazil, Neymar has scored ${neymarData.nationalTeam.goals} goals in ${neymarData.nationalTeam.caps} appearances, making him Brazil's all-time top scorer alongside Pelé.\n\nKey achievements:\n• ${neymarData.nationalTeam.achievements.join('\n• ')}\n\nRecords:\n• ${neymarData.nationalTeam.records.join('\n• ')}`;
                 }
 
                 // Achievements
-                if (question.includes('trophy') || question.includes('trophies') || question.includes('won') || question.includes('achievement') || question.includes('award')) {
-                    return `Neymar's major achievements:\n\nInternational:\n- ${neymarData.trophies.international.join('\n- ')}\n\nClub:\n- ${neymarData.trophies.club.join('\n- ')}\n\nIndividual:\n- ${neymarData.trophies.individual.join('\n- ')}`;
+                if (question.includes('trophy') || question.includes('trophies') || question.includes('won') || question.includes('achievement') || question.includes('award') || question.includes('title')) {
+                    return `Neymar has won numerous trophies throughout his career:\n\nInternational:\n• ${neymarData.trophies.international.join('\n• ')}\n\nClub:\n• ${neymarData.trophies.club.join('\n• ')}\n\nIndividual:\n• ${neymarData.trophies.individual.join('\n• ')}`;
                 }
 
-                if (question.includes('record') || question.includes('records') || question.includes('milestone')) {
-                    return `Neymar holds these records:\n- ${neymarData.nationalTeam.records.join('\n- ')}`;
+                if (question.includes('record') || question.includes('records') || question.includes('milestone') || question.includes('accomplishment')) {
+                    return `Neymar holds these notable records:\n• ${neymarData.records.join('\n• ')}`;
                 }
 
                 // Playing Style
-                if (question.includes('style') || question.includes('play') || question.includes('strength') || question.includes('skills')) {
-                    return `Neymar's playing style: ${neymarData.playStyle.description}\nKey traits: ${neymarData.playStyle.keyTraits.join(', ')}`;
+                if (question.includes('style') || question.includes('play') || question.includes('strength') || question.includes('skills') || question.includes('how does he play')) {
+                    return `Neymar's playing style: ${neymarData.playStyle.description}\n\nKey traits:\n• ${neymarData.playStyle.keyTraits.join('\n• ')}\n\nStrengths:\n• ${neymarData.playStyle.strengths.join('\n• ')}`;
                 }
 
                 // Personal Life
-                if (question.includes('family') || question.includes('son') || question.includes('child') || question.includes('children')) {
-                    return `Neymar has a son named ${neymarData.offPitch.funFacts[0].split(',')[0]}.`;
+                if (question.includes('family') || question.includes('son') || question.includes('child') || question.includes('children') || question.includes('kid')) {
+                    return `Neymar has a son named Davi Lucca, born on August 24, 2011. Davi often appears on Neymar's social media and at his matches.`;
                 }
 
-                if (question.includes('hobby') || question.includes('hobbies') || question.includes('interest') || question.includes('what does he like')) {
-                    return `Neymar's hobbies include: ${neymarData.offPitch.hobbies.join(', ')}.`;
+                if (question.includes('hobby') || question.includes('hobbies') || question.includes('interest') || question.includes('what does he like') || question.includes('off pitch')) {
+                    return `Off the pitch, Neymar enjoys:\n• ${neymarData.offPitch.hobbies.join('\n• ')}\n\nHe's particularly passionate about gaming and poker, even competing in professional poker tournaments.`;
                 }
 
-                if (question.includes('charity') || question.includes('foundation') || question.includes('philanthrop')) {
-                    return `Neymar is involved in charity work through: ${neymarData.offPitch.charities.join(', ')}`;
+                if (question.includes('charity') || question.includes('foundation') || question.includes('philanthrop') || question.includes('donate')) {
+                    return `Neymar is actively involved in charitable work:\n• ${neymarData.offPitch.charities.join('\n• ')}`;
                 }
 
-                if (question.includes('social media') || question.includes('instagram') || question.includes('twitter') || question.includes('follow')) {
-                    return `You can follow Neymar on:\nInstagram: ${neymarData.socialMedia.instagram}\nTwitter: ${neymarData.socialMedia.twitter}`;
+                if (question.includes('social media') || question.includes('instagram') || question.includes('twitter') || question.includes('follow') || question.includes('account')) {
+                    return `You can follow Neymar on social media:\n• Instagram: ${neymarData.socialMedia.instagram}\n• Twitter: ${neymarData.socialMedia.twitter}\nHe has over 200 million followers on Instagram!`;
                 }
 
-                if (question.includes('worth') || question.includes('net worth') || question.includes('income') || question.includes('earnings')) {
-                    return `Neymar's estimated net worth is ${neymarData.netWorth}.`;
+                if (question.includes('worth') || question.includes('net worth') || question.includes('income') || question.includes('earnings') || question.includes('rich')) {
+                    return `Neymar's estimated net worth is ${neymarData.netWorth}, making him one of the highest-paid athletes in the world. His income comes from football contracts, endorsements, and business ventures.`;
                 }
 
-                if (question.includes('injury') || question.includes('injured') || question.includes('hurt') || question.includes('problem')) {
-                    return `Neymar's major injuries:\n${neymarData.injuries.map(i => `${i.year}: ${i.description}`).join('\n')}`;
+                if (question.includes('injury') || question.includes('injured') || question.includes('hurt') || question.includes('problem') || question.includes('recovery')) {
+                    return `Neymar has unfortunately suffered several significant injuries throughout his career:\n${neymarData.injuries.map(i => `• ${i.year}: ${i.description}`).join('\n')}\n\nHis most recent ACL injury in 2023 required surgery and extensive rehabilitation.`;
                 }
 
-                if (question.includes('sponsor') || question.includes('endorsement') || question.includes('brand')) {
-                    return `Neymar's endorsements include: ${neymarData.endorsements.join(', ')}`;
+                if (question.includes('sponsor') || question.includes('endorsement') || question.includes('brand') || question.includes('partner')) {
+                    return `Neymar has endorsement deals with:\n• ${neymarData.endorsements.join('\n• ')}\n\nHis most significant is a lifetime contract with Puma worth over $30 million annually.`;
                 }
 
-                if (question.includes('fact') || question.includes('interesting') || question.includes('fun')) {
-                    return `Fun facts about Neymar:\n- ${neymarData.offPitch.funFacts.join('\n- ')}`;
+                if (question.includes('fact') || question.includes('interesting') || question.includes('fun') || question.includes('trivia') || question.includes('cool')) {
+                    return `Here are some fun facts about Neymar:\n• ${neymarData.offPitch.funFacts.join('\n• ')}`;
                 }
 
                 // Default response
-                return "I understand you're asking about Neymar. Could you please rephrase your question? I can tell you about his career, achievements, personal life, or playing style!";
+                const fallbacks = [
+                    "I'm not sure I understand. Could you rephrase your question about Neymar?",
+                    "I'm still learning about Neymar! Could you ask that in a different way?",
+                    "Hmm, I don't have that specific information. Try asking about Neymar's career, stats, or personal life.",
+                    "That's an interesting question! Could you provide more details about what you'd like to know about Neymar?"
+                ];
+                return fallbacks[Math.floor(Math.random() * fallbacks.length)];
             }
 
             // Event listeners
@@ -1760,10 +1722,8 @@
                 });
             });
 
-            // Load saved theme
-            if (localStorage.getItem('theme') === 'dark') {
-                document.body.classList.add('dark-mode');
-            }
+            // Set default theme to dark
+            localStorage.setItem('theme', 'dark');
 
             // Floating animations for elements
             const floatingElements = document.querySelectorAll('.floating');
