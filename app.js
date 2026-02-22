@@ -8,7 +8,8 @@
   const DEFAULT_STATUS = "Ask me anything about Neymar Jr.";
   const BOT_DELAY_MS = 700;
   const MAX_CHAT_HISTORY = 120;
-  const GROQ_FUNCTION_ENDPOINT = "/.netlify/functions/groq-chat";
+  const VERCEL_GROQ_FUNCTION_ENDPOINT = "/api/groq-chat";
+  const NETLIFY_GROQ_FUNCTION_ENDPOINT = "/.netlify/functions/groq-chat";
   const GROQ_TIMEOUT_MS = 12000;
   const OFF_TOPIC_GUARD_HINT = "Try asking about his clubs";
   const LOCAL_GROQ_KEY_STORAGE = "groq_api_key";
@@ -217,6 +218,7 @@
   const OTHER_PLAYER_KEYWORDS = ["messi", "ronaldo", "mbappe", "haaland", "vinicius", "modric", "debruyne", "lewandowski"];
 
   let appState = { isProcessing: false, typingNode: null, history: [] };
+  let groqState = { lastError: "" };
 
   document.addEventListener("DOMContentLoaded", init);
 
@@ -662,25 +664,30 @@
     for (const endpoint of proxyEndpoints) {
       const proxyReply = await requestGroqViaProxy(endpoint, message, history);
       if (proxyReply) {
+        groqState.lastError = "";
         return proxyReply;
       }
     }
 
-    // Local-only fallback: allows testing without Netlify functions by storing key in browser.
-    if (isLocalhostRuntime()) {
-      const directReply = await requestGroqDirectLocalKey(message, history);
-      if (directReply) {
-        return directReply;
-      }
+    // Optional client-side fallback: useful when deployed without functions.
+    const directReply = await requestGroqDirectClientKey(message, history);
+    if (directReply) {
+      groqState.lastError = "";
+      return directReply;
     }
 
+    reportGroqIssue();
     return null;
   }
 
   function buildGroqProxyEndpoints() {
-    const endpoints = [GROQ_FUNCTION_ENDPOINT];
+    const endpoints = [VERCEL_GROQ_FUNCTION_ENDPOINT, NETLIFY_GROQ_FUNCTION_ENDPOINT];
 
     if (isLocalhostRuntime()) {
+      endpoints.push("http://localhost:3000/api/groq-chat");
+      endpoints.push("http://127.0.0.1:3000/api/groq-chat");
+      endpoints.push("http://localhost:3001/api/groq-chat");
+      endpoints.push("http://127.0.0.1:3001/api/groq-chat");
       endpoints.push("http://localhost:8888/.netlify/functions/groq-chat");
       endpoints.push("http://127.0.0.1:8888/.netlify/functions/groq-chat");
     }
@@ -713,18 +720,31 @@
 
       window.clearTimeout(timeoutId);
       if (!response.ok) {
+        let detail = "";
+        try {
+          detail = await response.text();
+        } catch (_error) {
+          detail = "";
+        }
+        groqState.lastError =
+          "Proxy " +
+          endpoint +
+          " returned " +
+          response.status +
+          (detail ? " - " + detail.slice(0, 200) : "");
         return null;
       }
 
       const payload = await response.json();
       const reply = typeof payload.reply === "string" ? payload.reply.trim() : "";
       return reply || null;
-    } catch (_error) {
+    } catch (error) {
+      groqState.lastError = "Proxy " + endpoint + " failed: " + String(error.message || error);
       return null;
     }
   }
 
-  function getLocalGroqApiKey() {
+  function getClientGroqApiKey() {
     if (typeof window === "undefined") {
       return "";
     }
@@ -741,8 +761,8 @@
     }
   }
 
-  async function requestGroqDirectLocalKey(message, history) {
-    const apiKey = getLocalGroqApiKey();
+  async function requestGroqDirectClientKey(message, history) {
+    const apiKey = getClientGroqApiKey();
     if (!apiKey) {
       return null;
     }
@@ -778,8 +798,23 @@
       const payload = await response.json();
       const reply = payload?.choices?.[0]?.message?.content;
       return typeof reply === "string" && reply.trim() ? reply.trim() : null;
-    } catch (_error) {
+    } catch (error) {
+      groqState.lastError = "Direct Groq request failed: " + String(error.message || error);
       return null;
+    }
+  }
+
+  function reportGroqIssue() {
+    if (!groqState.lastError) {
+      groqState.lastError =
+        "No Groq proxy endpoint responded and no client key was available.";
+    }
+
+    if (typeof console !== "undefined" && typeof console.warn === "function") {
+      console.warn("[NeymarGPT] Groq unavailable:", groqState.lastError);
+      console.warn(
+        "[NeymarGPT] Fix: on Vercel set GROQ_API_KEY in Project Settings -> Environment Variables and redeploy (API route /api/groq-chat), or set window.GROQ_API_KEY / localStorage.groq_api_key for client fallback."
+      );
     }
   }
 
