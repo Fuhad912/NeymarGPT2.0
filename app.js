@@ -14,6 +14,7 @@
   const OFF_TOPIC_GUARD_HINT = "Try asking about his clubs";
   const LOCAL_GROQ_KEY_STORAGE = "groq_api_key";
   const LOCAL_GROQ_MODEL = "llama-3.3-70b-versatile";
+  const BUILD_ID = "2026-02-22-vercel-groq-b";
   const LOCAL_GROQ_SYSTEM_PROMPT =
     "You are NeymarGPT. Only answer about Neymar Jr. Keep replies concise. If unrelated, say: " +
     "Sorry, I only answer questions about Neymar Jr. 😅 Try asking about his clubs, Brazil goals, trophies, or injuries.";
@@ -223,6 +224,10 @@
   document.addEventListener("DOMContentLoaded", init);
 
   function init() {
+    if (typeof console !== "undefined" && typeof console.info === "function") {
+      console.info("[NeymarGPT] Build:", BUILD_ID);
+    }
+
     const elements = getElements();
     if (!elements.chatInput || !elements.sendBtn || !elements.chatMessages) return;
 
