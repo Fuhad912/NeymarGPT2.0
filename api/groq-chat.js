@@ -9,6 +9,16 @@ module.exports = async function handler(req, res) {
     return;
   }
 
+  if (req.method === "GET") {
+    res.status(200).json({
+      ok: true,
+      route: "/api/groq-chat",
+      method: "POST",
+      hasGroqKey: Boolean(process.env.GROQ_API_KEY)
+    });
+    return;
+  }
+
   if (req.method !== "POST") {
     res.status(405).json({ error: "Method not allowed" });
     return;
@@ -103,7 +113,8 @@ module.exports = async function handler(req, res) {
       return;
     }
 
-    res.status(200).json({ reply });
+    res.setHeader("X-NeymarGPT-Proxy", "vercel-groq-chat");
+    res.status(200).json({ reply, source: "vercel-groq-chat" });
   } catch (error) {
     res.status(500).json({
       error: "Server error",
