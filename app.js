@@ -692,7 +692,17 @@
   }
 
   function buildGroqProxyEndpoints() {
-    const endpoints = [VERCEL_GROQ_FUNCTION_ENDPOINT, NETLIFY_GROQ_FUNCTION_ENDPOINT];
+    const endpoints = [];
+    const runtimeHost = getRuntimeHost();
+
+    // Prefer the matching platform endpoint to avoid noisy 404 fallbacks.
+    if (runtimeHost.includes("vercel.app")) {
+      endpoints.push(VERCEL_GROQ_FUNCTION_ENDPOINT);
+    } else if (runtimeHost.includes("netlify.app")) {
+      endpoints.push(NETLIFY_GROQ_FUNCTION_ENDPOINT);
+    } else {
+      endpoints.push(VERCEL_GROQ_FUNCTION_ENDPOINT, NETLIFY_GROQ_FUNCTION_ENDPOINT);
+    }
 
     if (isLocalhostRuntime()) {
       endpoints.push("http://localhost:3000/api/groq-chat");
@@ -707,12 +717,45 @@
   }
 
   function isLocalhostRuntime() {
+    const host = getRuntimeHost();
+    return host === "localhost" || host === "127.0.0.1" || host === "";
+  }
+
+  function getRuntimeHost() {
     if (typeof window === "undefined" || !window.location) {
-      return false;
+      return "";
     }
 
     const host = String(window.location.hostname || "").toLowerCase();
-    return host === "localhost" || host === "127.0.0.1" || host === "";
+    return host;
+  }
+
+  function isOffTopic(parsedInput) {
+    const hasNeymarContext = parsedInput.uniqueTokens.some((token) =>
+      NEYMAR_CONTEXT_KEYWORDS.some((keyword) => tokenMatchesKeyword(token, keyword))
+    );
+
+    if (hasNeymarContext) {
+      return false;
+    }
+
+    const hasGreeting = parsedInput.uniqueTokens.some((token) =>
+      ["hi", "hello", "hey"].some((greeting) => tokenMatchesKeyword(token, greeting))
+    );
+
+    if (hasGreeting) {
+      return false;
+    }
+
+    const hasOffTopicKeyword = parsedInput.uniqueTokens.some((token) =>
+      OFF_TOPIC_KEYWORDS.some((keyword) => tokenMatchesKeyword(token, keyword))
+    );
+
+    if (hasOffTopicKeyword) {
+      return true;
+    }
+
+    return OTHER_PLAYER_KEYWORDS.some((name) => parsedInput.normalized.includes(name));
   }
 
   async function requestGroqViaProxy(endpoint, message, history) {
@@ -827,34 +870,6 @@
         "[NeymarGPT] Fix: on Vercel set GROQ_API_KEY in Project Settings -> Environment Variables and redeploy (API route /api/groq-chat), or set window.GROQ_API_KEY / localStorage.groq_api_key for client fallback."
       );
     }
-  }
-
-  function isOffTopic(parsedInput) {
-    const hasNeymarContext = parsedInput.uniqueTokens.some((token) =>
-      NEYMAR_CONTEXT_KEYWORDS.some((keyword) => tokenMatchesKeyword(token, keyword))
-    );
-
-    if (hasNeymarContext) {
-      return false;
-    }
-
-    const hasGreeting = parsedInput.uniqueTokens.some((token) =>
-      ["hi", "hello", "hey"].some((greeting) => tokenMatchesKeyword(token, greeting))
-    );
-
-    if (hasGreeting) {
-      return false;
-    }
-
-    const hasOffTopicKeyword = parsedInput.uniqueTokens.some((token) =>
-      OFF_TOPIC_KEYWORDS.some((keyword) => tokenMatchesKeyword(token, keyword))
-    );
-
-    if (hasOffTopicKeyword) {
-      return true;
-    }
-
-    return OTHER_PLAYER_KEYWORDS.some((name) => parsedInput.normalized.includes(name));
   }
 
   function generateIntentResponse(intentId) {
