@@ -218,7 +218,7 @@
   const OTHER_PLAYER_KEYWORDS = ["messi", "ronaldo", "mbappe", "haaland", "vinicius", "modric", "debruyne", "lewandowski"];
 
   let appState = { isProcessing: false, typingNode: null, history: [] };
-  let groqState = { lastError: "" };
+  let groqState = { lastError: "", lastSource: "init", lastEndpoint: "" };
 
   document.addEventListener("DOMContentLoaded", init);
 
@@ -604,14 +604,21 @@
 
     // Keep strict Neymar-only guard local and deterministic.
     if (hasHardGuardReply || isOffTopic(parsedInput)) {
+      groqState.lastSource = "offline-guard";
+      groqState.lastEndpoint = "";
       return localReply;
     }
 
     const groqReply = await requestGroqReply(userText);
     if (groqReply) {
+      if (typeof console !== "undefined" && typeof console.info === "function") {
+        console.info("[NeymarGPT] Reply source:", groqState.lastSource, groqState.lastEndpoint || "");
+      }
       return groqReply;
     }
 
+    groqState.lastSource = "offline-fallback";
+    groqState.lastEndpoint = "";
     return localReply;
   }
 
@@ -665,6 +672,8 @@
       const proxyReply = await requestGroqViaProxy(endpoint, message, history);
       if (proxyReply) {
         groqState.lastError = "";
+        groqState.lastSource = "groq-proxy";
+        groqState.lastEndpoint = endpoint;
         return proxyReply;
       }
     }
@@ -673,6 +682,8 @@
     const directReply = await requestGroqDirectClientKey(message, history);
     if (directReply) {
       groqState.lastError = "";
+      groqState.lastSource = "groq-direct-client-key";
+      groqState.lastEndpoint = "https://api.groq.com/openai/v1/chat/completions";
       return directReply;
     }
 
@@ -1076,5 +1087,16 @@
     return new Promise((resolve) => {
       window.setTimeout(resolve, ms);
     });
+  }
+
+  if (typeof window !== "undefined") {
+    window.NeymarGPTDebug = window.NeymarGPTDebug || {};
+    window.NeymarGPTDebug.getGroqState = function getGroqState() {
+      return {
+        lastError: groqState.lastError,
+        lastSource: groqState.lastSource,
+        lastEndpoint: groqState.lastEndpoint
+      };
+    };
   }
 })();
